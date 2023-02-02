@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Storybook</title>
+	<script> document.documentElement.classList.remove("no-js")	</script>
+	<base href="https://syntheticreality.net/">
+	<link href="https://syntheticreality.net/" rel="canonical">
+	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+	<meta property="og:url" content="https://syntheticreality.net/Storybook.html" >
+	<meta property="og:type" content="website" >
+	<meta property="og:title" content= "Storybook Builder" >
+	<meta property="og:description" content="by Bob Wright">
+	<meta property="og:image:type" content="image/png" >
+	<meta property="og:image:width" content="1800" >
+	<meta property="og:image:height" content="960" >
+	<meta property="og:image" content="https://syntheticreality.net/scenery98gray.png" >
+	<meta name="description" content="my code and includes modified content from various sources" />
+	<meta name="keywords" content="landing page, text, animation, javascript" />
+	<meta name="author" content="Bob Wright" />
+	<meta name="rating" content="general">
+	<meta name="robots" content="index, follow"/> 
+	<link rel="shortcut icon" href="./favicon.ico">
+	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="./CSS/bootstrap.min.css">
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" href="./CSS/mdb.min.css">
+	<!-- <link rel="stylesheet" type="text/css" href="./CSS/storybookLanding.css" /> -->
+	<link rel="stylesheet" type="text/css" href="./CSS/Landing.css" />
+</head>
+<body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./js/gsap.js"></script>
+<script>
+//$(document).ready(function () {
+	console.info( "are we ready!" );
+/* $(document).ready(function () {
+	console.info( "we are ready!" );
+}); */
+//$(document).ready(function () {
+$( window ).on( "load", function() {
+	console.info( "we are ready!" );
+    //'use strict';
+ var showVPDetails = 1;
+ var viewportWidth = $(window).width();
+ var viewportHeight = $(window).height();
+	$("#wrapper").hide(0);
+	$("#content").hide(0);
+	$(".textANI.three").hide(0);
+	$(".textANI1.four").hide(0);
+	$(".textANI2.seven").hide(0);
+	$("#eyes").hide(0);
+
+	$(".matrix").hide(0);
+	$("#flyout").hide(0);
+	$("#flyout2").hide(0);
+	$("#back2Home").hide(0);
+
+	var message = "Right-click disabled"; 
+	function clickIE() {if (document.all) {(message);return false;}} 
+	function clickNS(e) {if 
+	(document.layers||(document.getElementById&&!document.all)) { 
+	if (e.which==2||e.which==3) {(message);return false;}}} 
+	if (document.layers) 
+	{document.captureEvents(Event.MOUSEDOWN);document.onmousedown = clickNS;} 
+	else{document.onmouseup = clickNS;document.oncontextmenu = clickIE;} 
+	document.oncontextmenu = new Function("return false");
+
+	// Display the Landing screen
+	var tl = new TimelineLite(),
+	inter = 30,
+	speed = 2,
+	$text = $('.text');
+	function animInfinite() {
+	$('.text').each(function (index, val) {
+	  index = index + 1;
+	  TweenMax.fromTo(
+	  $(this), speed, { autoAlpha: 0 }, { autoAlpha: 0 + 0.01 * index, delay: 0.1 * index });
+	});
+	TweenMax.to($('.text:nth-child(30)'), speed, { autoAlpha: 1.5, delay: 3.5 });
+	}
+
+// scale the images to fill the viewport and keep aspect
+$(window).resize(function() {
+
+ if(showVPDetails == 1) {
+  var viewportWidth = $(window).width();
+  var vpWidth = parseInt(viewportWidth);
+    var fontSize = '2vw';
+    if(vpWidth <= 840) { fontSize = '2vw' } else { fontSize = '1.5vw' };
+	$("body").append('<div id="viewport-size" title="Viewport Size and Aspect" style="display:block;color:#fff;background:#08F;position:fixed;top:0;left:0;font-size:' + fontSize + ';z-index:20;"></div>');
+  var viewportHeight = $(window).height();
+  var vpHeight = parseInt(viewportHeight);
+  var VPaspectRatio = viewportWidth / viewportHeight;
+	var VPaspectRounded = (Math.round(VPaspectRatio * 100)) / 100;
+	  // console.info("rounded VP aspect " + VPaspectRounded);
+	$("#viewport-size").html('<div class="dimensions">' + viewportWidth + ' &times; ' + viewportHeight + ' px &amp; w/h = ' + VPaspectRounded + ' </div>');
+ }
+  // Display the StoryBook Comic Book Builder screen
+  // get the image dimensions, faster to have sizes already specified
+  var elWidth = document.getElementById('content_img').width;
+  // console.info("eW "+ elWidth);
+  if (elWidth == null) {
+	var elWidth = document.getElementById('content_img').naturalWidth;
+  // console.info("nW "+elWidth);
+  }
+  var elHeight = document.getElementById('content_img').height;
+	// console.info("eH "+ this.getAttribute("height"));
+  if (elHeight == null) {
+	var elHeight = document.getElementById('content_img').naturalHeight;
+	// console.info("nW "+ elHeight);
+  }
+  var imgSize = "Img Size: " + elWidth + " X " + elHeight;
+  // console.log(imgSize);
+  // checkpoint for zero height image
+	if (elHeight == 0) {return};
+	 elWidth = parseInt(elWidth);
+	 elHeight = parseInt(elHeight);
+	 viewportWidth = parseInt(viewportWidth);
+	 viewportHeight = parseInt(viewportHeight);
+	 // console.info("eW "+elWidth);
+	 // console.info("eH "+elHeight);
+	 // console.info("vW "+viewportWidth);
+	 // console.info("vH "+viewportHeight);
+	var aspect = elWidth/elHeight;
+	var aspectRounded = (Math.round(aspect * 100)) / 100;
+	 // console.info("rounded img aspect " + aspectRounded);
+	var widthRatio = viewportWidth / elWidth;
+	var heightRatio = viewportHeight / elHeight;
+	 // console.info("wR "+widthRatio);
+	 // console.info("hR "+heightRatio);
+	 // default to the width ratio until proven wrong
+	var scale = widthRatio;
+	if (widthRatio * elHeight > viewportHeight) {
+		scale = heightRatio;};
+	//  console.info("\nwR "+widthRatio);
+	//  console.info("hR "+heightRatio);
+	//  console.info("scale "+scale);
+	//  scale = scale * .98;
+	//  console.info("finalscale " + scale);
+	var scaleRounded = (Math.round(scale * 100)) / 100;
+	//  console.info("rounded scale " + scaleRounded);
+	//  fit the content into the window
+	var hsize  = Math.round(elWidth * scale);
+	var vsize = Math.round(elHeight * scale);
+	 //console.info ("hsize "+hsize);
+	 //console.info ("vsize "+vsize);
+  // finally set the scaled image width and height attributes
+  document.getElementById('content_img').width = hsize;
+  document.getElementById('content_img').height = vsize;
+
+	// Display the "matrix" screen
+	var ctx = c.getContext("2d");
+	// full screen canvas
+	c.height = vpHeight;
+	c.width = vpWidth;
+	//character set
+	var character = "0123456789@#$%^&?©ΓειάσουΚόσμε田由甲申甴电甶男甸甹町画甼甽甾甿畀畁畂畃畄畅畆畇畈畉畊畋界畍畎畏畐畑مرحبابالعالمПрывітаннеСусветСәлемӘлемសួស្តី​ពិភពលោកಹಲೋ ವರ್ಲ್ಡ್안녕하세요월드ສະ​ບາຍ​ດີ​ຊາວ​ໂລກ";
+	//array of characters
+	character = character.split("");
+	var font_size = 26;
+	var columns = c.width/font_size; //number of columns for the rain
+	//an array of drops - one per column
+	var drops = [];
+	//x below is the x coordinate
+	//1 = y co-ordinate of the drop(same for every drop initially)
+	for(var x = 0; x < columns; x++) {
+	drops[x] = 1;}
+	//draw the characters
+	function draw(){
+		//Black BG for the canvas
+		//translucent BG to show trail
+		var opacity = 0.01;
+		if(Math.random() > 0.9) {
+		var opacity = 0.075};
+		ctx.fillStyle = "rgba(0, 0, 0, "+opacity+")";
+		ctx.fillRect(0, 0, c.width, c.height);
+		//	var color = (Math.floor(Math.random()*10));
+		//	if(color > 5) {ctx.fillStyle = "#F80";} else {ctx.fillstyle = "#0ff";}
+		ctx.fillStyle = "#fff"; // text
+			var color = (Math.floor(Math.random()*10));
+			if(color == 9) {ctx.fillStyle = "#0ff";}
+			if(color == 8) {ctx.fillStyle = "#8f0";}
+			if(color == 7) {ctx.fillStyle = "#a3d";}
+			if(color == 6) {ctx.fillStyle = "#e23";}
+			if(color == 5) {ctx.fillStyle = "#f90";}
+			if(color == 4) {ctx.fillStyle = "#ff1";}
+			if(color == 3) {ctx.fillStyle = "#29f";}
+			if(color == 2) {ctx.fillStyle = "#f0f";}
+			if(color == 1) {ctx.fillStyle = "#f50";}
+		ctx.font = font_size + "px arial";
+		//looping over drops
+		for(var i = 0; i < drops.length; i++){
+			//a random character to print
+			var text = character[Math.floor(Math.random()*character.length)];
+			//x = i*font_size, y = value of drops[i]*font_size
+			ctx.fillText(text, i*font_size, drops[i]*font_size);
+			//sending the drop back to the top randomly after it has crossed the screen
+			//adding a randomness to the reset to make the drops scattered on the Y axis
+			if(drops[i]*font_size > c.height && Math.random() > 0.75)
+				drops[i] = 0;
+			//incrementing Y coordinate
+			if(drops[i] > 6 && (Math.random() > 0.9)) {
+			drops[i] = drops[i] - 6;}
+			drops[i]++;
+		}
+	}
+	setInterval(draw, 80);
+}).trigger('resize');
+
+	// Run the timeline
+	setTimeout(function() {
+		$("#wrapper").show(0);
+	}, 0);
+	animInfinite();
+	setTimeout(function() {
+		$("#wrapper").hide(0);
+		$("#content").show(0);
+		//$("#content_text-wrap").show(0);
+		$(".content_img").show(0);
+	$("#back2Home").show(0);
+	$("#flyout").show(0);
+	$("#flyout2").show(0);
+	}, 6000);
+	setTimeout(function() {
+		$("#content_text-wrap").hide(0);
+		$(".textANI.three").show(0);
+	}, 8000);
+	setTimeout(function() {$("#eyes").show(0);}, 9500);
+	setTimeout(function() {
+		$(".textANI1.four").show(0);
+	}, 14500);
+	setTimeout(function() {
+		$(".textANI.three").hide(500);
+		$(".textANI2.seven").show(0);
+	}, 16500);
+	setTimeout(function() {
+		$("#eyes").hide(0);
+		$(".textANI1.four").hide(0);
+	}, 20500);
+	setTimeout(function() {
+		$(".textANI2.seven").hide(0);
+	}, 22500);
+	setTimeout(function() {
+		$(".content_img").hide(500);
+		$("#content").hide(0);
+	}, 23500);
+
+    setTimeout(function () {$(".matrix").show(0);}, 23500);
+	//var c = document.getElementById("myBody").style.cursor = "pointer";
+});
+</script>
+<!--#include file="./includes/browserupgrade.ssi" -->
+<!-- <main class="container-fluid main-container d-flex flex-column"> -->
+<main class="container-fluid main-container">
+	<!-- ++++++++++++++++++++ -->
+	<!-- display our content -->
+	<!-- Title page -->
+	<section class="row row-no-gutters">
+     <img class="sr-only" alt="Synthetic Reality outline text zooms out over spinning logo globe." width="1px" height="1px" src="./Imgs/1x1pixel.png">
+	<div  id="wrapper" class="col-12 px-sm-0" style="display: none;">
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<div class="text">Synthetic<br>Reality</div>
+		<header class="text">Synthetic<br>Reality</header>
+	</div>
+	</section>
+
+	<!-- StoryBook page -->
+	<section id="content" style="display: none;">
+		<img id="content_img" src="./Imgs/5.jpg" width="847px" height="565px" alt="a long hall receding to darkness in the distance.">
+		<div id="content_text-wrap" class="content_text-wrap row d-flex align-items-top row-no-gutters">
+		<!--	<div class="content_text--top col-10 d-flex px-sm-0 justify-content-left">
+			<h1 class="content_text-inner">Story</h1>
+			</div> -->
+			<div class="content_text--mtop col-10 d-flex px-sm-0 justify-content-center">
+			<h3 class="content_text-inner content_text-inner--stroke">This is</h3>
+			</div> -->
+
+			<div class="content_text--middle col-12 d-flex px-sm-0 justify-content-center">
+			<h1 class="content_text--full">StoryBook</h1>
+			</div>
+
+		<!--	<div class="content_text--mbottom col-10  d-flex px-sm-0 justify-content-end">
+			<h1 class="content_text-inner content_text-inner--stroke">Book</h1>
+			</div>
+			<div class="content_text--bottom col-10  d-flex px-sm-0 justify-content-end">
+			<h1 class="content_text-inner ">Book</h1>
+			</div> -->
+		</div>
+	</section>
+	<section>
+		<div class="textANI three">
+			<span>I</span><span>m</span><span>a</span><span>g</span><span>e</span>&ensp;
+			<span>G</span><span>a</span><span>l</span><span>l</span><span>e</span><span>r</span><span>y</span>&ensp;<span>M</span><span>a</span><span>k</span><span>e</span><span>r</span>
+		</div>
+		<div class="textANI1 four">
+			<span>a</span><span>n</span><span>d</span>
+		</div>
+		<div class="textANI2 seven">
+			<span>C</span><span>o</span><span>m</span><span>i</span><span>c</span>&ensp;
+			<span>B</span><span>o</span><span>o</span><span>k</span>&ensp;<span>B</span><span>u</span><span>i</span><span>l</span><span>d</span><span>e</span><span>r</span>
+		</div>		
+		<div class="eyes">
+			<img id="eyes" src="./Imgs/blinky.gif" alt="a pair of red eyes that blink open.">
+		</div>
+	</section>
+	<section class="matrix" title="Drop character screen like the matrix.">
+		<canvas id="c" height="100vh" width="100vw"></canvas>
+	</section>
+
+	<!-- +++++++++++++++++++++++ -->
+	<!-- Navigation  -->
+<style>
+#back2Home a:focus, #flyout a:focus, #flyout2 a:focus {
+  /*background-color: GreenYellow;*/
+  	outline: .8vw solid GreenYellow;
+}
+</style>
+	<nav>
+	<button id="back2Home" title="Go to the site Home Page" type="button"><a href="./index.php" title="Go to the site Home Page">
+	<svg version="1.0" xmlns="http://www.w3.org/2000/svg"  id="Home" class="Home"
+	width="60pt" height="40pt"  viewBox="0 0 40.000000 44.000000" alt="Go to the site Home Page">
+	<g transform="translate(0.000000,44.000000) scale(0.100000,-0.100000)"
+	fill="green" stroke="green" stroke-width="5">
+	<path d="M60 367 c0 -55 -3 -67 -25 -87 -28 -27 -32 -40 -10 -40 8 0 15 -6 15
+	-14 0 -21 20 -30 33 -17 14 14 87 15 87 1 0 -6 32 -10 75 -10 l75 0 0 -100 0
+	-100 25 0 25 0 0 120 c0 100 3 120 15 120 8 0 15 4 15 9 0 11 -184 181 -196
+	181 -4 0 -18 -10 -31 -22 l-23 -21 0 21 c0 19 -6 22 -40 22 l-40 0 0 -63z"/>
+	<path d="M47 184 c-4 -4 -7 -47 -7 -96 l0 -88 85 0 86 0 -3 92 c-3 85 -5 93
+	-23 93 -16 0 -21 -8 -23 -42 -3 -43 -3 -43 -42 -43 -38 0 -39 0 -42 42 -3 39
+	-16 57 -31 42z"/>
+	</g></svg></a></button>
+	<!-- proceed to comics page flyout -->
+	<button id="flyout" title="Go to Comics page" type="button"><a href="./Comics/Comics.php" title="Go to Comics page"><svg version="1.0" xmlns="http://www.w3.org/2000/svg" id="comicsPage" width="50.000000pt" height="33.000000pt" viewBox="0 0 150.000000 133.000000" class="bi bi-layout-wtf" preserveAspectRatio="xMidYMid meet" alt="Go to Comics page"><g transform="translate(0.000000,133.000000) scale(0.100000,-0.100000)" fill="none" stroke="#000000" stroke-width="36px"><path d="M325 1309 c83 -5 172 -12 198 -17 27 -6 56 -8 65 -5 24 6 122 -87 122 -116 0 -39 -29 -36 -73 7 -31 31 -55 44 -92 52 -77 15 -258 30 -377 30 l-108 0 0 -495 0 -495 109 0 c166 0 404 -19 482 -39 l69 -17 0 437 c0 285 4 448 11 466 15 40 57 81 110 108 84 43 270 79 454 88 33 2 -205 3 -530 4 -413 0 -545 -2 -440 -8z"/><path d="M1175 1248 c-179 -20 -310 -61 -362 -114 l-33 -32 0 -447 c0 -386 2 -446 14 -442 75 29 342 57 544 57 l102 0 0 495 -1 495 -92 -1 c-51 -1 -128 -6-172 -11z"/><path d="M164 201 c4 -6 2 -18 -4 -26 -11 -13 -3 -15 56 -15 212 0 461 -32 511 -66 20 -13 27 -13 51 0 50 26 174 46 360 58 100 6 177 15 171 19 -7 4 -9 15 -5 25 6 16 -3 17 -146 10 -213 -9 -378 -42 -378 -75 0 -17 -57 -13 -64 4 -14 39 -145 63 -375 72 -142 5 -182 3 -177 -6z"/></g></svg></a></button>
+	<!-- proceed to galleries page flyout -->
+	<button id="flyout2" title="Go to SyntheticReality galleries page" type="button"><a href="./Galleries/Galleries.php" title="Go to SyntheticReality home page"><svg version="1.0" xmlns="http://www.w3.org/2000/svg" id="galleriesPage"  width="50.000000pt" height="33.000000pt" viewBox="0 0 16 16" class="bi bi-card-image" fill="currentColor" xmlns="http://www.w3.org/2000/svg" alt="Go to SyntheticReality home page"><path fill-rule="evenodd" d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/><path d="M10.648 7.646a.5.5 0 0 1 .577-.093L15.002 9.5V13h-14v-1l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71z"/><path fill-rule="evenodd" d="M4.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg></a>
+	</button>
+	</nav>
+</main>
+<!-- =========================== -->
+</body>
+</html>
